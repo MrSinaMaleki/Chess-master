@@ -15,6 +15,16 @@ class ChessCLI:
         assert version, "Failed to get stockfish version"
         print("Stockfish version: {}".format(version))
 
+        self.player_side = self.choose_side()
+        self.engine_side = 'black' if self.player_side == 'white' else 'white'
+
+    def choose_side(self):
+        while True:
+            side = input("Choose the side (black or white): ").strip().lower()
+            if side in ['black', 'white']:
+                return side
+            print("Invalid input. Please enter 'white' or 'black'.")
+
     def display_board(self):
         print("\nCurrent position:")
         print(self.stockfish.get_board_visual())
@@ -41,18 +51,23 @@ class ChessCLI:
 
     def run(self):
         print("Welcome to the CLI chess game against Stockfish!")
+        print(f"You are playing as {self.player_side}.")
         print("Enter moves in UCI format (e.g., e2e4). Type 'quit' to exit.")
 
         while True:
             self.display_board()
+
             user_move = self.get_user_move()
             if user_move.lower() == "quit":
                 print("Thanks for playing! Goodbye.")
                 break
+
             if not self.process_move(user_move):
                 continue
+
             if not self.make_stockfish_move():
                 break
+
 
 if __name__ == "__main__":
     game = ChessCLI()
