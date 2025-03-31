@@ -18,7 +18,8 @@ class ChessCLI:
         self.player_side = self.choose_side()
         self.engine_side = 'black' if self.player_side == 'white' else 'white'
 
-    def choose_side(self):
+    @staticmethod
+    def choose_side():
         while True:
             side = input("Choose the side (black or white): ").strip().lower()
             if side in ['black', 'white']:
@@ -29,8 +30,8 @@ class ChessCLI:
         print("\nCurrent position:")
         print(self.stockfish.get_board_visual())
 
-
-    def get_user_move(self):
+    @staticmethod
+    def get_user_move():
         return input("Your move (UCI format, or 'quit' to exit): ").strip()
 
     def process_move(self, move: str) -> bool:
